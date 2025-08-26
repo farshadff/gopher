@@ -181,3 +181,52 @@ import (
   "github.com/pinosell/gopher/pkg/shell"
 )
 ```
+# Plant Uml
+
+![alt text](image.png)
+
+
+
+```
+@startuml
+title Gopher Repo Architecture
+
+package "gopher" {
+  
+  [errors] as ERRORS
+  [s3ext] as S3EXT
+  [mapext] as MAPEXT
+  [templateext] as TEMPLATEEXT
+  [shell] as SHELL
+
+}
+
+' External deps
+package "External Libraries" {
+  [gRPC codes] as GRPC
+  [HTTP] as HTTP
+  [S3 (AWS/minio)] as S3
+  [Go text/template] as TEMPLATE
+  [OS / Shell] as OS
+}
+
+' Dependencies
+ERRORS --> GRPC : uses codes.Code
+ERRORS --> HTTP : maps to status codes
+S3EXT --> S3 : wraps client SDK
+TEMPLATEEXT --> TEMPLATE : wraps text/template
+SHELL --> OS : runs commands
+
+' Utility independence
+MAPEXT -[hidden]-> ERRORS
+MAPEXT -[hidden]-> S3EXT
+MAPEXT -[hidden]-> TEMPLATEEXT
+MAPEXT -[hidden]-> SHELL
+
+note right of MAPEXT
+Pure Go helpers
+(no external deps)
+end note
+
+@enduml
+```

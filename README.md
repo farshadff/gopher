@@ -26,7 +26,7 @@ Edit
 ## 🟥 `pkg/errors`
 
 **Import:**  
-```go
+
 import gerr "github.com/pinosell/gopher/pkg/errors"
 What it does
 A structured error type that integrates with:
@@ -72,21 +72,21 @@ Introspection:
 
 (e *Error) Localize() bool / SetLocalize(bool)
 
-Example
-go
-Copy
-Edit
+
+# Example
+```go
 func loadThing(id string) error {
   return gerr.NewWithSlug(codes.NotFound, "thing.not_found").
          WithDetailF("id=%s", id)
 }
 🟦 pkg/s3ext
+
+```
 Import:
 
-go
-Copy
-Edit
+```
 import "github.com/pinosell/gopher/pkg/s3ext"
+```
 What it does
 Thin wrapper around S3 providing:
 
@@ -97,9 +97,7 @@ Download (by key or URL)
 Delete
 
 Configs
-go
-Copy
-Edit
+```
 type Configs struct {
   S3EndpointURL  url.URL   `env:"S3_ENDPOINT_URL,required"`
   S3AccessKey    string    `env:"S3_ACCESS_KEY,required"`
@@ -109,10 +107,9 @@ type Configs struct {
   S3BufferSize   int       `env:"S3_BUFFER_SIZE_KB" envDefault:"500"`
   S3BufferGrowth float64   `env:"S3_BUFFER_GROWTH" envDefault:"1.8"`
 }
+```
 Example
-go
-Copy
-Edit
+```
 cfg := s3ext.Configs{
   S3EndpointURL: *mustParseURL("https://s3.example.com"),
   S3AccessKey:   os.Getenv("S3_ACCESS_KEY"),
@@ -121,14 +118,15 @@ cfg := s3ext.Configs{
 cli, _ := s3ext.Dial(cfg)
 
 u, _ := cli.Upload("bucket", "path/file.jpg", data, true)
-fmt.Println("public URL:", u.String())
-🟩 pkg/mapext
-Import:
+fmt.Println("public URL:", u.String())\
+```
 
-go
-Copy
-Edit
+🟩 pkg/mapext
+
+Import:
+```
 import "github.com/pinosell/gopher/pkg/mapext"
+```
 Functions
 Keys[K comparable, V any](m map[K]V) []K
 
@@ -136,36 +134,31 @@ Values[K comparable, V any](m map[K]V) []V
 
 Merge[K comparable, V any](src, ext map[K]V) map[K]V
 
-Example
-go
-Copy
-Edit
+```
 out := mapext.Merge(map[string]int{"a":1}, map[string]int{"b":2})
 ks  := mapext.Keys(out)   // ["a","b"]
 vs  := mapext.Values(out) // [1,2]
+```
 🟨 pkg/templateext
-Import:
 
-go
-Copy
-Edit
+
+Import:
+```
 import "github.com/pinosell/gopher/pkg/templateext"
 Function
 Format(tmpl string, model any) (string, error)
+```
 
-Example
-go
-Copy
-Edit
+# Example
+```
 msg, _ := templateext.Format("Hello {{.Name}}!", struct{ Name string }{"World"})
 // -> "Hello World!"
+```
 🟪 pkg/shell
 Import:
-
-go
-Copy
-Edit
+```
 import "github.com/pinosell/gopher/pkg/shell"
+```
 What it does
 Provides helpers for:
 
@@ -176,15 +169,10 @@ Capturing output and exit codes
 Use when you need quick command execution from Go (CI utilities, scaffolding, ops tooling).
 
 🚀 Installation
-sh
-Copy
-Edit
+```
 go get github.com/pinosell/gopher@v1.3.16
 Import the packages you need:
 
-go
-Copy
-Edit
 import (
   "github.com/pinosell/gopher/pkg/errors"
   "github.com/pinosell/gopher/pkg/s3ext"
@@ -192,15 +180,4 @@ import (
   "github.com/pinosell/gopher/pkg/templateext"
   "github.com/pinosell/gopher/pkg/shell"
 )
-🔗 References
-GitHub Repo
-
-pkg.go.dev Documentation
-
-yaml
-Copy
-Edit
-
----
-
-Do you want me to also make a **short “Getting Started” example app** (e.g. one `main.go` showing errors + s3 + mapext in action) so you can drop it into the repo as an example?
+```
